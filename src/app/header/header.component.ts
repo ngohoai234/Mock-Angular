@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
 
   onSubmitFormVintage(search: string, indexTab: number) {
     this.indexTab = indexTab;
-    this.apiServices.getSearchProducts(search).subscribe((res) => {
+    this.apiServices.getSearchProductsVintage(search).subscribe((res) => {
       this.listData = res;
     });
   }
