@@ -1,0 +1,28 @@
+<div class="product_item" [routerLink]="['/product-detail', product.id]">
+  <div class="product_item-img">
+    <img [src]="product.image" alt="" />
+  </div>
+  <h3>
+    {{ product.name }}
+  </h3>
+  <h1>{{ product.price }}$</h1>
+  <span>Eligible for Shipping To Mars or somewhere else</span>
+  <div class="product_item-evaluate">
+    <div class="product_item-vote">
+      <div class="product_item-rating">
+        <img
+          src="../../assets/image/star.svg"
+          alt=""
+          srcset=""
+          *ngFor="let rating of renderRating(product.rating)"
+        />
+      </div>
+
+      <span> {{ product.rating }} </span>
+    </div>
+    <div class="product_item-watch btn btn-blue">
+      <img src="../../assets/image/heart.svg" alt="" />
+      <span> Watch </span>
+    </div>
+  </div>
+</div>

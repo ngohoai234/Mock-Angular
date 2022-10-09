@@ -2,17 +2,23 @@
   <nav id="main-nav" class="navbar">
     <ul class="navbar_first">
       <li>
-        <a href="" class="navbar_logo">
+        <a routerLink="/" class="navbar_logo">
           <span>S</span>
           <h2>Shopka</h2>
         </a>
       </li>
-      <li><a href="">Sell on Shopka</a></li>
-      <li><a href="">Register</a></li>
+      <li><a routerLink="/">Sell on Shopka</a></li>
+      <li>
+        <a routerLink="/" routerLinkActive="router-link-active">Register</a>
+      </li>
     </ul>
     <div class="navbar_between">
       <div class="navbar_input">
-        <form #myForm="ngForm" (ngSubmit)="onSubmitForm(myForm.value)">
+        <!-- <form #myForm="ngForm" (ngSubmit)="onSubmitForm(myForm.value)"> -->
+        <form
+          #myForm="ngForm"
+          (ngSubmit)="getProductByText(myForm.value.search)"
+        >
           <button class="navbar_input-search" type="submit">
             <img
               class="navbar_input-search"
@@ -20,7 +26,12 @@
               alt=""
             />
           </button>
-          <input type="text" ngModel name="search" />
+          <input
+            type="text"
+            ngModel
+            name="search"
+            (input)="getProductByText($event)"
+          />
         </form>
       </div>
       <div>
@@ -64,6 +75,7 @@
     </div>
   </div>
 </header>
+
 <div class="container">
   <div class="category">
     <div class="item_category">
@@ -340,7 +352,7 @@
                   [ngClass]="
                     indexTab === 0 ? 'btn btn_default' : 'btn btn_grey'
                   "
-                  (click)="onSubmitFormVintage('', 0)"
+                  (click)="getByCategory('', 0)"
                 >
                   <h3 class="links_name">Show all</h3>
                 </button>
@@ -348,7 +360,7 @@
                   [ngClass]="
                     indexTab === 1 ? 'btn btn_default' : 'btn btn_grey'
                   "
-                  (click)="onSubmitFormVintage('Vintage', 1)"
+                  (click)="getByCategory('Vintage', 1)"
                 >
                   Vintage
                 </button>
@@ -356,7 +368,7 @@
                   [ngClass]="
                     indexTab === 2 ? 'btn btn_default' : 'btn btn_grey'
                   "
-                  (click)="onSubmitFormVintage('Premium', 2)"
+                  (click)="getByCategory('Premium', 2)"
                 >
                   <h3 class="links_name">Buy now</h3>
                 </button>
@@ -381,71 +393,29 @@
             <span class="text_related">vintage typewriter</span>
           </div>
         </div>
-        <div class="container_products">
-          <div
-            class="product_item"
-            *ngFor="let item of listData"
-            [routerLink]="['/product-detail', item.id]"
-          >
-            <div class="product_item-img">
-              <img [src]="item.image" alt="" />
-            </div>
-            <h3>
-              {{ item.name }}
-            </h3>
-            <h1>{{ item.price }}$</h1>
-            <span>Eligible for Shipping To Mars or somewhere else</span>
-            <div class="product_item-evaluate">
-              <div class="product_item-vote">
-                <div class="product_item-rating" *ngIf="item.rating >= 4.5">
-                  <img src="../../assets/image/star.svg" alt="" srcset="" />
-                  <img src="../../assets/image/star.svg" alt="" srcset="" />
-                  <img src="../../assets/image/star.svg" alt="" srcset="" />
-                  <img src="../../assets/image/star.svg" alt="" srcset="" />
-                  <img
-                    class="star"
-                    src="../../assets/image/star1.svg"
-                    alt=""
-                    srcset=""
-                  />
-                </div>
-                <div class="product_item-rating" *ngIf="item.rating === 4">
-                  <img src="../../assets/image/star.svg" alt="" srcset="" />
-                  <img src="../../assets/image/star.svg" alt="" srcset="" />
-                  <img src="../../assets/image/star.svg" alt="" srcset="" />
-                  <img src="../../assets/image/star.svg" alt="" srcset="" />
-                </div>
-                <span> {{ item.rating }} </span>
-              </div>
-              <div class="product_item-watch btn btn-blue">
-                <img src="../../assets/image/heart.svg" alt="" />
-                <span> Watch </span>
-              </div>
-            </div>
-          </div>
+        <div
+          class="alert alert-info px-5 py-5 text-center h-100 mt-5"
+          *ngIf="!products.length && isFetchedData"
+        >
+          There is no product
         </div>
-      </div>
-      <div class="container_right-bottom">
-        <div class="bottom_item">
-          <img src="../../assets/image/lightbulb-on-outline.svg" alt="" />
-          <h1 class="mg-10">Clear & Usable user flows</h1>
-          <span class="mg-10">Let’s boost yout marketplace</span>
+
+        <div
+          class="alert alert-danger px-5 py-5 text-center h-100 mt-5"
+          *ngIf="error && isFetchedData"
+        >
+          {{ error }}
         </div>
-        <div class="bottom_item">
-          <img src="../../assets/image/auto-fix.svg" alt="" />
-          <h1 class="mg-10">Fine & Styled components</h1>
-          <span class="mg-10">Speed up with Setproduct templates</span>
-        </div>
-        <div class="bottom_item">
-          <img src="../../assets/image/Vector-2.svg" alt="" />
-          <h1 class="mg-10">Customizable & Reusable</h1>
-          <span class="mg-10">Take our UX patterns and rebuild</span>
+        <div
+          class="container_products"
+          *ngIf="products.length && isFetchedData"
+        >
+          <app-product
+            *ngFor="let product of products"
+            [product]="product"
+          ></app-product>
         </div>
       </div>
     </div>
   </div>
 </div>
-<!-- <div *ngFor=" let item of listData">
-    <p>ten: {{item.detail}}</p>
-    <img [src]="item.img" alt="">
-  </div> -->

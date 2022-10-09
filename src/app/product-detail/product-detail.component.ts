@@ -1,30 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MockService } from '../services/apiServices';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Product } from '../common/models/Product';
+import { ProductService } from '../services/productService';
 
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.scss']
+  styleUrls: ['./product-detail.component.scss'],
 })
 export class ProductDetailComponent implements OnInit {
-
   constructor(
-    private activatedRoute:ActivatedRoute,
-     private apiServices:MockService) {
+    private productService: ProductService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
+  fetchedData: boolean = false;
 
-   }
-productDetail:any
-  ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params)=>{
-      this.apiServices.getProductDetail(params.id).subscribe((res)=>{
-        console.log("ress", res)
-        this.productDetail = res;
-        console.log(this.productDetail)
-    })      
-      console.log(params)
-    })
+  product: Product = {} as Product;
+
+  renderRating(rating: number) {
+    return new Array(Math.floor(rating)).fill(0);
   }
 
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.productService
+        .getProductById(params.id)
+        .subscribe((response: Product) => {
+          this.product = response;
+          this.fetchedData = true;
+        });
+    });
+  }
 }

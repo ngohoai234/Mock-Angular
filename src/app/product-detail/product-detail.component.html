@@ -1,35 +1,45 @@
-  <div class="detail">
-    <div class="product-card">
-        <div class="image-container">
-          <div class="cover-image product-image">
-            <img [src]="productDetail.image" alt=""/>
+<app-navbar></app-navbar>
+<div class="detail">
+  <div class="product-card" *ngIf="fetchedData">
+    <div class="image-container">
+      <div class="cover-image product-image">
+        <img [src]="product.image" alt="img" />
+      </div>
+      <div class="more-image-container">
+        <div class="more-image product-image">
+          <img [src]="product.image" alt="img" />
         </div>
-          <div class="more-image-container">
-            <div class="more-image product-image">
-                <img [src]="productDetail.image" alt=""/>
-            </div>
-            <div class="more-image product-image">
-                <img [src]="productDetail.image" alt=""/>
-            </div>
-            <div class="more-image product-image">
-                <img [src]="productDetail.image" alt=""/>
-            </div>
-          </div>
+        <div class="more-image product-image">
+          <img [src]="product.image" alt="img" />
         </div>
-        <div class="product-info">
-          <a href="#" class="free-shipping">              {{productDetail.name}}
-        </a>
-          <h3 class="product-name">Razer Kraken Kitty Edt Gamming Headset Quartz</h3>
-          <p class="regular-price"></p>
-          <p class="discount-price">{{productDetail.price}}$</p>
-          <p class="offer-info">The offer is valid until April 3 or as long as stock losts!</p>
-          
-          <div class="stock">
-            <div class="stock-status"></div>
-            <p class="stock-info">50+ pcs. in stock.</p>
-          </div>
-         
+        <div class="more-image product-image">
+          <img [src]="product.image" alt="img" />
         </div>
       </div>
-      
+    </div>
+    <div class="product-info">
+      <a href="#" class="free-shipping"> {{ product.name }} </a>
+      <h3 class="product-name">
+        Razer Kraken Kitty Edt Gamming Headset Quartz
+      </h3>
+      <p class="regular-price"></p>
+      <p class="discount-price">{{ product.price }}$</p>
+      <p class="offer-info">
+        {{ product.description }}
+      </p>
+
+      <div class="stock">
+        <div class="stock-status"></div>
+        <p class="stock-info">50+ pcs. in stock.</p>
+      </div>
+      <div class="product_item-rating">
+        <img
+          src="../../assets/image/star.svg"
+          alt=""
+          srcset=""
+          *ngFor="let rating of renderRating(product.rating)"
+        />
+      </div>
+    </div>
   </div>
+</div>
