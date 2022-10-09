@@ -74,6 +74,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subjectInput.unsubscribe();
+    this.subjectCategory.unsubscribe();
   }
 
   getProductByText(value: string | Event) {
